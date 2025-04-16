@@ -13,6 +13,8 @@ fn main() {
 
     println!("Guess a Number:");
 
+    println!("To End Game input STOP");
+
     loop {
         // Step 3: ask the user to guess the number stored in the memory
         let mut guess = String::new();
@@ -21,21 +23,27 @@ fn main() {
             .read_line(&mut guess)
             .expect("Failed to get input");
 
-        // Step 5: Computer compares users input wih computer's initial guess
-        // Step 5a: Convert user input from string (Terminal parse value as string) to Interger.
+        // Step 5: check if user wants to end game
+        let trimmed = guess.trim();
+        if trimmed.eq_ignore_ascii_case("stop") {
+            println!("Game stopped by user.");
+            break;
+        }
+
+        // Step 6: Computer compares users input wih computer's initial guess
+        // Step 6a: Convert user input from string (Terminal parse value as string) to Interger.
+
         let parsed_guess: i32 = guess.trim().parse().expect("Please input a real number!");
 
-        // Step 6: If number is correct inform user wins, else inform user if guess lower or higher
+        // Step 7: If number is correct inform user wins, else inform user if guess lower or higher
         let cmp_guess = parsed_guess.cmp(&computer_rand_number);
         match cmp_guess {
             Ordering::Less => println!("Your Guess is less! Guess Again"),
             Ordering::Greater => println!("Your Guess is greater! Guess Again"),
-            Ordering::Equal =>{ 
+            Ordering::Equal => {
                 println!("Your Guess is correct.");
                 break;
-            },
+            }
         }
-
-        // Step 7: Start from step 1
     }
 }
